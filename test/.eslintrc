@@ -1,0 +1,6 @@
+{
+  "rules": {
+    "brace-style": "off",
+    "new-cap": "off"
+  },
+}

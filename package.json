@@ -1,0 +1,47 @@
+{
+  "name": "benchmark-tester",
+  "version": "0.0.0",
+  "description": "Benchmark test runner with package loading and result printing functions.",
+  "main": "src/index.js",
+  "files": [
+    "src",
+    "web"
+  ],
+  "scripts": {
+    "lint": "eslint .",
+    "test": "./test/test.sh",
+    "cover": "nyc --reporter=lcov --reporter=text-summary npm test",
+    "coveralls": "npm run cover && cat coverage/lcov.info | coveralls",
+    "web:build": "npm run web:build-src && npm run web:build-test",
+    "web:build-src": "browserify src/tester.js --standalone BenchmarkTester -o web/benchmark-tester.js -u lodash -u platform && cd web && uglifyjs benchmark-tester.js --compress --mangle -o benchmark-tester.min.js --source-map url=\"'benchmark-tester.min.js.map'\"",
+    "web:build-test": "node tool/mktest.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sttk/benchmark-tester.git"
+  },
+  "keywords": [
+    "benchmark"
+  ],
+  "author": "Takayuki Sato",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/sttk/benchmark-tester/issues"
+  },
+  "homepage": "https://github.com/sttk/benchmark-tester#readme",
+  "devDependencies": {
+    "browserify": "^16.2.3",
+    "coveralls": "^3.0.2",
+    "eslint": "^5.8.0",
+    "nyc": "^13.1.0",
+    "uglify-js": "^3.4.9"
+  },
+  "dependencies": {
+    "@fav/type.format-date": "^1.0.3",
+    "@fav/type.format-number": "^1.0.2",
+    "benchmark": "^2.1.4",
+    "findup-sync": "^2.0.0",
+    "lodash": "^4.17.11",
+    "platform": "^1.3.5"
+  }
+}
