@@ -385,7 +385,7 @@ See the file LICENSE in this distribution for more details.
 
 [repo-url]: https://github.com/sttk/benchmark-tester/
 [npm-img]: https://img.shields.io/badge/npm-v0.1.0-blue.svg
-[npm-url]: https://www.npmjs.org/package/branchmark-tester/
+[npm-url]: https://www.npmjs.org/package/benchmark-tester/
 [mit-img]: https://img.shields.io/badge/license-MIT-green.svg
 [mit-url]: https://opensource.org/licenses/MIT
 [travis-img]: https://travis-ci.org/sttk/benchmark-tester.svg?branch=master
