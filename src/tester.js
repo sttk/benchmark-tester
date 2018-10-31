@@ -18,7 +18,29 @@ function Tester() {
 }
 
 Tester.prototype.addTest = function(pkgName, testFn) {
-  this.tests[pkgName] = { fn: testFn };
+  var test = getTest(pkgName, this);
+  test.fn = testFn;
+  loadPackage(pkgName, this);
+  return this;
+};
+
+function getTest(pkgName, tester) {
+  var test = tester.tests[pkgName];
+  if (test) {
+    return test;
+  }
+  return tester.tests[pkgName] = {};
+}
+
+Tester.prototype.configPackage = function(pkgName, configFn) {
+  var pkg = loadPackage(pkgName, this);
+  configFn.call(null, pkg.module, pkg.version);
+  return this;
+};
+
+Tester.prototype.setConverter = function(pkgName, convertFn) {
+  var test = getTest(pkgName, this);
+  test.converter = convertFn;
   return this;
 };
 
@@ -43,14 +65,20 @@ Tester.prototype.runTest = function(testTitle, testData) {
   Object.keys(tester.tests).forEach(function(pkgName) {
     var pkg = loadPackage(pkgName, tester);
     var test = tester.tests[pkgName];
+    var convert = test.converter || notConvertData;
+    var data = convert(testData, pkg.module);
     suite.add(pkgName, function() {
-      test.fn.call(null, pkg.module, testData);
+      test.fn.call(null, pkg.module, data);
     });
   });
 
   suite.run();
   return this;
 };
+
+function notConvertData(data) {
+  return data;
+}
 
 Tester.prototype.verifyTest = function(pkgName, testData, expected, assertFn) {
   var tester = this;
@@ -63,10 +91,13 @@ Tester.prototype.verifyTest = function(pkgName, testData, expected, assertFn) {
     return this;
   }
 
+  var convert = test.converter || notConvertData;
+  var data = convert(testData, pkg.module);
+
   if (typeof assertFn !== 'function') {
     assertFn = assert.equal;
   }
-  assertFn(test.fn.call(null, pkg.module, testData), expected);
+  assertFn(test.fn.call(null, pkg.module, data), expected);
   return this;
 };
 

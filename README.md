@@ -91,7 +91,7 @@ var BenchmarkTester = require('benchmark-tester');
     - Machine: Intel(R) Core(TM) i7-2620M CPU @ 2.70GHz, 16GB
     ```
 
-3. You can verify a test function as follows:
+3. A test function can be verified as follows:
 
     ```js
     var BenchmarkTester = require('benchmark-tester');
@@ -114,7 +114,7 @@ var BenchmarkTester = require('benchmark-tester');
       .print();
     ```
     
-4. You can add a package to be loaded manually.
+4. A package to be loaded can be added manually.
 
     ```js
     var BenchmarkTester = require('benchmark-tester');
@@ -152,7 +152,43 @@ var BenchmarkTester = require('benchmark-tester');
     - Platform: Node.js 10.8.0 on Darwin 64-bit
     - Machine: Intel(R) Core(TM) i7-2620M CPU @ 2.70GHz, 16GB
     ```     
+
+5. A package can be configure as follows:
+
+    ```js
+    // test.js
+    var BenchmarkTester = require('benchmark-tester');
+
+    new BenchmarkTester()
+      .addTest('lodash', function(lodash, data) {
+        return lodash.trim(data);
+      })
+      .configPackage('lodash', function(lodash, version) {
+         ...
+      })
+      .runTest('Trim', '  abc  ')
+      
+      .print();
+    ```
     
+6. A package test data can be converted before each test as follows:
+
+    ```js
+    // test.js
+    var BenchmarkTester = require('benchmark-tester');
+
+    new BenchmarkTester()
+      .addTest('lodash', function(lodash, data) {
+        return lodash.trim(data);
+      })
+      .setConverter('lodash', function(data, module) {
+        return '\t' + data + '\t';
+      })
+      .runTest('Trim', '  abc  ')
+      
+      .print();
+    ```
+       
 ### Web browser
 
 1. Creates `load-packages.js` file in [the above](#loadmodule-webbrowser).
@@ -171,8 +207,6 @@ var BenchmarkTester = require('benchmark-tester');
 2. Creates `browser-test.js` file in [the above](#loadmodule-webbrowser). 
 
     ```js
-    var BenchmarkTester = require('benchmark-tester');
-    var assert = require('assert');
     
     var inputData = '  abc  ';
     var expectedData = 'abc';
@@ -304,6 +338,48 @@ Add a package module be loaded manually.
 | packageName | string  | The package name.                          |
 | modle       | object/function | The module be loaded.              |
 | version     | string  | The version of the package.                |
+
+#### <u>.configPackage(packageName, configFunc) : BenchmarkTester</u>
+
+Execute *configFunc* to configure a package module.
+
+**Parameter:**
+
+| Parameter   | Type    | Description                                   |
+|:------------|:-------:|:----------------------------------------------|
+| packageName | string  | The package name.                             |
+| configFunc  | function| The function to configure the package module. |
+
+The API of * configFunc* is as follows:
+
+**Parameter:**
+
+| Parameter   | Type    | Description                                |
+|:------------|:-------:|:-------------------------------------------|
+| modle       | object/function | The package module.                |
+| version     | string  | The version of the package.                |
+
+#### <u>.setConverter(packageName, convertFunc) : BenchmarkTester</u>
+
+Set a test data converter.
+*convertFunc* is executed a test data before a test.
+
+**Parameter:**
+
+| Parameter   | Type    | Description                                |
+|:------------|:-------:|:-------------------------------------------|
+| packageName | string  | The package name.                          |
+| convertFunc | function| The function to convert a test data.       |
+
+The API of *convertFunc* is as follows:
+
+**Parameter:**
+
+| Parameter   | Type    | Description                                      |
+|:------------|:-------:|:-------------------------------------------------|
+| testData    | *any*   | Test data passed by `.runTest` or `.verifyTest`. |
+| modle       | object/function | The package module.                      |
+
 
 <i>**For customizing**</i>
 
