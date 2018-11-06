@@ -79,7 +79,7 @@ var BenchmarkTester = require('benchmark-tester');
     The result of running the above test is:
     
     ```sh
-    $ node test/readme-example.test.js 
+    $ node test.js 
     Trim:
     lodash x 6,036,712 ops/sec ±1.59% (82 runs sampled)
 
@@ -94,6 +94,7 @@ var BenchmarkTester = require('benchmark-tester');
 3. A test function can be verified as follows:
 
     ```js
+    // test.js
     var BenchmarkTester = require('benchmark-tester');
     var assert = require('assert');
     
@@ -117,6 +118,7 @@ var BenchmarkTester = require('benchmark-tester');
 4. A package to be loaded can be added manually.
 
     ```js
+    // test.js
     var BenchmarkTester = require('benchmark-tester');
     var assert = require('assert');
     
@@ -140,7 +142,7 @@ var BenchmarkTester = require('benchmark-tester');
     The result of running the above test is:
     
     ```sh
-    $ node test/readme-example.test.js 
+    $ node test.js 
     Trim:
     lodash x 5,962,477 ops/sec ±2.06% (81 runs sampled)
     String API x 23,272,338 ops/sec ±1.55% (85 runs sampled)
@@ -153,7 +155,7 @@ var BenchmarkTester = require('benchmark-tester');
     - Machine: Intel(R) Core(TM) i7-2620M CPU @ 2.70GHz, 16GB
     ```     
 
-5. A package can be configure as follows:
+5. A package can be configured before test as follows:
 
     ```js
     // test.js
@@ -206,8 +208,7 @@ var BenchmarkTester = require('benchmark-tester');
 
 2. Creates `browser-test.js` file in [the above](#loadmodule-webbrowser). 
 
-    ```js
-    
+    ```js   
     var inputData = '  abc  ';
     var expectedData = 'abc';
 
@@ -253,13 +254,13 @@ var BenchmarkTester = require('benchmark-tester');
 
 ## API
 
-### <u>class BenchmarkTester</u>
+The `BenchmarkTester` class has following methods:
 
-#### <u>*constructor*() : BenchmarkTester</u>
+### constructor => BenchmarkTester
 
-Creates an instance of BenchmarkTester.
+Creates an instance of BenchmarkTester class.
 
-#### <u>.runTest(testTitle, inputData) : BenchmarkTester </u>
+### .runTest(testTitle, inputData) => BenchmarkTester
 
 Runs a benchmark test about package modules added by `.addTest` method.
 
@@ -270,12 +271,12 @@ Runs a benchmark test about package modules added by `.addTest` method.
 | testTitle   | string  | The test title to be output.         |
 | inputData   | *any*   | The input data to be used in a test. |
 
-#### <u>.print() : Void</u>
+### .print() => Void
 
 Prints a result text.
 In default, this program prints a result as a Markdown table.
 
-#### <u>.addTest(packageName, testFunc) : BenchmarkTester</u>
+### .addTest(packageName, testFunc) => BenchmarkTester
 
 Adds a package and a test function for it.
 
@@ -286,16 +287,16 @@ Adds a package and a test function for it.
 | packageName | string  | The package name.                    |
 | testFunc    | function| The test function for the package.   |
 
-The API of *testFunc* is as follows:
+* The API of *testFunc* is as follows:
 
-**Parameter:**
+    **Parameter:**
 
-| Parameter   | Type    | Description                                |
-|:------------|:-------:|:-------------------------------------------|
-| module      | object / function  | The module of the package.      |
-| inputData   | *any*   | The input data to be passed to the module. |
+    | Parameter   | Type    | Description                                |
+    |:------------|:-------:|:-------------------------------------------|
+    | module      | object / function  | The module of the package.      |
+    | inputData   | *any*   | The input data to be passed to the module. |
 
-#### <u>.verifyTest(packageName, inputData, expectedData) : BenchmarkTester</u>
+### .verifyTest(packageName, inputData, expectedData) => BenchmarkTester
 
 Verifys a test function.
 
@@ -307,7 +308,7 @@ Verifys a test function.
 | inputData   | *any*   | The input data to be passed to the module. |
 | expectedData| *any*   | The expected data of the test function.    |
 
-#### <u>.verifyTest(packageName, verifyFunc) : BenchmarkTester</u>
+### .verifyTest(packageName, verifyFunc) : BenchmarkTester
 
 Verifys a test function.
 
@@ -318,16 +319,16 @@ Verifys a test function.
 | packageName | string  | The package name.                         |
 | verifyFunc  | function| The function to verify the test function. |
 
-The API of *testFunc* is as follows:
+* The API of *verifyFunc* is as follows:
 
-**Parameter:**
+    **Parameter:**
 
-| Parameter   | Type    | Description                                |
-|:------------|:-------:|:-------------------------------------------|
-| testFunc    | function| The test function for the package.         |
-| module      | object / function  | The module of the package.      |
+    | Parameter   | Type    | Description                                |
+    |:------------|:-------:|:-------------------------------------------|
+    | testFunc    | function| The test function for the package.         |
+    | module      | object / function  | The module of the package.      |
 
-#### <u>.addPackage(packageName, module, version) : BenchmarkTester</u>
+### .addPackage(packageName, module, version) : BenchmarkTester
 
 Add a package module be loaded manually.
 
@@ -339,7 +340,7 @@ Add a package module be loaded manually.
 | modle       | object/function | The module be loaded.              |
 | version     | string  | The version of the package.                |
 
-#### <u>.configPackage(packageName, configFunc) : BenchmarkTester</u>
+### .configPackage(packageName, configFunc) : BenchmarkTester
 
 Execute *configFunc* to configure a package module.
 
@@ -350,16 +351,16 @@ Execute *configFunc* to configure a package module.
 | packageName | string  | The package name.                             |
 | configFunc  | function| The function to configure the package module. |
 
-The API of * configFunc* is as follows:
+* The API of *configFunc* is as follows:
 
-**Parameter:**
+    **Parameter:**
 
-| Parameter   | Type    | Description                                |
-|:------------|:-------:|:-------------------------------------------|
-| modle       | object/function | The package module.                |
-| version     | string  | The version of the package.                |
+    | Parameter   | Type    | Description                                |
+    |:------------|:-------:|:-------------------------------------------|
+    | modle       | object/function | The package module.                |
+    | version     | string  | The version of the package.                |
 
-#### <u>.setConverter(packageName, convertFunc) : BenchmarkTester</u>
+### .setConverter(packageName, convertFunc) : BenchmarkTester
 
 Set a test data converter.
 *convertFunc* is executed a test data before a test.
@@ -371,19 +372,19 @@ Set a test data converter.
 | packageName | string  | The package name.                          |
 | convertFunc | function| The function to convert a test data.       |
 
-The API of *convertFunc* is as follows:
+* The API of *convertFunc* is as follows:
 
-**Parameter:**
+    **Parameter:**
 
-| Parameter   | Type    | Description                                      |
-|:------------|:-------:|:-------------------------------------------------|
-| testData    | *any*   | Test data passed by `.runTest` or `.verifyTest`. |
-| modle       | object/function | The package module.                      |
+    | Parameter   | Type    | Description                                      |
+    |:------------|:-------:|:-------------------------------------------------|
+    | testData    | *any*   | Test data passed by `.runTest` or `.verifyTest`. |
+    | modle       | object/function | The package module.                      |
 
 
 <i>**For customizing**</i>
 
-#### <u>._beforeTest(testInfo) : Void</u>
+### ._beforeTest(testInfo) : Void
 
 Is called before starting a benchmark test.
 
@@ -393,16 +394,16 @@ Is called before starting a benchmark test.
 |:------------|:-------:|:-------------------------------------------|
 | testInfo    | object  | The benchmark test information.            |
 
-The properties of *testInfo* is as follows:
+* The properties of *testInfo* is as follows:
 
-**Properties:**
+    **Properties:**
 
-| Name        | Type    | Description                                   |
-|:------------|:-------:|:----------------------------------------------|
-| title       | object  | The test title.                               |
-| data        | *any*   | The input data for the package test function. |
+    | Name        | Type    | Description                                   |
+    |:------------|:-------:|:----------------------------------------------|
+    | title       | object  | The test title.                               |
+    | data        | *any*   | The input data for the package test function. |
 
-#### <u>._afterTest(testInfo) : Void</u>
+### ._afterTest(testInfo) : Void
 
 Is called after ending a benchmark test.
 
@@ -412,9 +413,9 @@ Is called after ending a benchmark test.
 |:------------|:-------:|:-------------------------------------------|
 | testInfo    | object  | The benchmark test information.            |
 
-The properties of *testInfo* is same with `._beforeTest` method.
+* The properties of *testInfo* is same with `._beforeTest` method.
 
-#### <u>._onCycle(cycleInfo, testInfo) : Void</u>
+### ._onCycle(cycleInfo, testInfo) : Void
 
 Is called after executing each package test function.
 
@@ -425,9 +426,9 @@ Is called after executing each package test function.
 | cycleInfo   | object  | The `event.target` of [benchmark](https://www.npmjs.com/package/benchmark). |
 | testInfo    | object  | The benchmark test information.            |
 
-The properties of *testInfo* is same with `._beforeTest` method.
+* The properties of *testInfo* is same with `._beforeTest` method.
 
-#### <u>._formatCycle(cycleInfo) : string</u>
+### ._formatCycle(cycleInfo) : string
 
 Formats the result text for a package test function.
 
@@ -437,7 +438,7 @@ Formats the result text for a package test function.
 |:------------|:-------:|:-------------------------------------------|
 | cycleInfo   | object  | The `event.target` of [benchmark](https://www.npmjs.com/package/benchmark). |
 
-#### <u>._getPackage(packageName) : object / function</u>
+### ._getPackage(packageName) : object / function
 
 Loads a package module and returns it.
 In Web browser, this method is needed to be overriden like `load-package.js` file in [the example above](#loadpackage-webbrowser).
@@ -450,6 +451,19 @@ This program will find up `package.json` file and load the package module automa
 | Parameter   | Type    | Description                                |
 |:------------|:-------:|:-------------------------------------------|
 | packageName | string  | The package name.                          |
+
+
+## CLI options
+
+On command line interface, this program accepts the following CLI options:
+
+### --verify-only, -V
+
+If this option is given, this program executes only `.verifyTest` methods.
+
+### --no-verify
+
+If this option is given, this program skips `.verifyTest` methods.
 
 
 ## License

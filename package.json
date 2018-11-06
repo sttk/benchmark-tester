@@ -14,7 +14,8 @@
     "coveralls": "npm run cover && cat coverage/lcov.info | coveralls",
     "web:build": "npm run web:build-src && npm run web:build-test",
     "web:build-src": "browserify src/tester.js --standalone BenchmarkTester -o web/benchmark-tester.js -u lodash -u platform && cd web && uglifyjs benchmark-tester.js --compress --mangle -o benchmark-tester.min.js --source-map url=\"'benchmark-tester.min.js.map'\"",
-    "web:build-test": "node tool/mktest.js"
+    "web:build-test": "node tool/mktest.js",
+    "build": "npm run lint && npm run cover && npm run web:build"
   },
   "repository": {
     "type": "git",
@@ -37,6 +38,7 @@
     "uglify-js": "^3.4.9"
   },
   "dependencies": {
+    "@fav/cli.parse-argv": "^0.1.1",
     "@fav/type.format-date": "^1.0.3",
     "@fav/type.format-number": "^1.0.2",
     "benchmark": "^2.1.4",

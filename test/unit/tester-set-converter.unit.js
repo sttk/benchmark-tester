@@ -5,13 +5,13 @@ var assert = require('assert');
 
 var add = function(a, b) {
   return a + b;
-}
+};
 
 var test = function(module, data) {
   assert.strictEqual(module, add);
   assert.deepEqual(data, [-12, -34]);
   return module(data[0], data[1]);
-}
+};
 
 var run = false;
 
